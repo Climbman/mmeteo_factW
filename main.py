@@ -28,25 +28,23 @@ def main(file_name):
     
     time = [year, month, day, hour]
     
-    ###
-    print(time)
     
     with open(file_name,'r',encoding = 'utf-8') as json_file:
         json_string = json_file.read()
         
     json_dict = json.loads(json_string)
-    ###
-    ##print(json_dict)
-    print(type(json_dict))
     
     for station_id, info_block in json_dict.items():
-        print(station_id)
-        print(info_block)
-        print(len(info_block))
         
-        obj = cl.factWeatherCity(station_id, info_block)
-        obj.cond_code = info_block["condition_code"]
-        print(obj.cond_code)
+        city = cl.factWeatherCity(station_id, info_block, time)
+        # print(city.stn_name)
+        # print(city.cond_code)
+        # print(city.cond_txt)
+        # print(city.temp)
+        # print(city.press)
+        # print(city.wind_dir)
+        # print(city.wind_gust)
+        # print(city.datetime)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
