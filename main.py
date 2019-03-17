@@ -3,6 +3,8 @@
 import sys
 import json
 
+import classes as cl
+
 def verify(file_name):
     if isinstance(file_name, str):
         if len(file_name) == 20 and file_name[-5:] == ".json" and file_name[0:3] == "wm_":
@@ -39,7 +41,12 @@ def main(file_name):
     
     for station_id, info_block in json_dict.items():
         print(station_id)
-        print(info_block)    
+        print(info_block)
+        print(len(info_block))
+        
+        obj = cl.factWeatherCity(station_id, info_block)
+        obj.cond_code = info_block["condition_code"]
+        print(obj.cond_code)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
