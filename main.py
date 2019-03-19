@@ -2,8 +2,10 @@
 ###
 import sys
 import json
+import mysql.connector
 
 import classes as cl
+import config_test as config
 
 def verify(file_name):
     if not isinstance(file_name, str):
@@ -15,6 +17,32 @@ def verify(file_name):
         return 0
         
     return 1
+    
+def db_insert(city_dict):
+    
+    mydb = mysql.connector.connect(
+    host = config._HOST,
+    user = config._USER,
+    passwd = config._PASS,
+    database = config._DB)
+    
+    print(mydb)
+    
+    
+    obj = city_dict["1"]
+    
+    mycursor = mydb.cursor()
+
+    sql = "INSERT INTO m_fact_weather (station_id, date_time, stn_name, cond_code, cond_txt, temp, press, wind_dir, wind_gust) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    val = (obj.stn_id, obj.datetime, obj.stn_name, obj.cond_code, obj.cond_txt, obj.temp, obj.press, obj.wind_dir, obj.wind_gust)
+    
+    mycursor.execute(sql, val)
+
+    mydb.commit()
+
+print(mycursor.rowcount, "record inserted.")
+    
+    #for key, value in d.items():
 
 
 
@@ -59,6 +87,7 @@ def create_obj(json_dict, time):
         city_dict.update({str(station_id) : cl.factWeatherCity(station_id, info_block, time)})
     
     print(city_dict)
+    db_insert(city_dict)
 
 
 
