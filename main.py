@@ -34,13 +34,13 @@ def db_insert(city_dict):
     mycursor = mydb.cursor()
 
     sql = "INSERT INTO m_fact_weather (station_id, date_time, stn_name, cond_code, cond_txt, temp, press, wind_dir, wind_gust) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    val = (obj.stn_id, obj.datetime, obj.stn_name, obj.cond_code, obj.cond_txt, obj.temp, obj.press, obj.wind_dir, obj.wind_gust)
+    val = (int(obj.stn_id), obj.datetime, obj.stn_name, int(obj.cond_code), obj.cond_txt, float(obj.temp), float(obj.press), int(obj.wind_dir), float(obj.wind_gust))
     
     mycursor.execute(sql, val)
 
     mydb.commit()
 
-print(mycursor.rowcount, "record inserted.")
+#print(mycursor.rowcount, "record inserted.")
     
     #for key, value in d.items():
 
