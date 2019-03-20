@@ -20,27 +20,33 @@ def verify(file_name):
     
 def db_insert(city_dict):
     
-    mydb = mysql.connector.connect(
+    conn = mysql.connector.connect(
     host = config._HOST,
     user = config._USER,
     passwd = config._PASS,
     database = config._DB)
     
-    print(mydb)
     
+    for stid in city_dict:
     
-    obj = city_dict["1"]
-    
-    mycursor = mydb.cursor()
+        obj = city_dict[stid]
+        
+        crs = conn.cursor()
 
-    sql = "INSERT INTO m_fact_weather (station_id, date_time, stn_name, cond_code, cond_txt, temp, press, wind_dir, wind_gust) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    val = (int(obj.stn_id), obj.datetime, obj.stn_name, int(obj.cond_code), obj.cond_txt, float(obj.temp), float(obj.press), int(obj.wind_dir), float(obj.wind_gust))
+        query = "INSERT INTO m_fact_weather (station_id, date_time, stn_name, cond_code, cond_txt, temp, press, wind_dir, wind_gust) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        values = (int(obj.stn_id), obj.datetime, obj.stn_name, int(obj.cond_code), obj.cond_txt, float(obj.temp), float(obj.press), int(obj.wind_dir), float(obj.wind_gust))
+        
+        try:
+            crs.execute(query, values)
+            conn.commit()
+        except mysql.connector.errors.IntegrityError:
+            print("Probably a duplicate value in date + station. Date: " + obj.datetime + " Station: " + obj.stn_id)
+        except:
+            print("Something else went wrong. Date: " + obj.datetime + " Station: " + obj.stn_id)
+
+        print(crs.rowcount, "record inserted.")
     
-    mycursor.execute(sql, val)
-
-    mydb.commit()
-
-#print(mycursor.rowcount, "record inserted.")
+    conn.close()
     
     #for key, value in d.items():
 
@@ -57,6 +63,9 @@ def from_file(file_name):
     
     with open(file_name,'r',encoding = 'utf-8') as json_file:
         json_string = json_file.read()
+        
+    if len(json_string) == 0:
+        sys.exit()
         
     json_dict = json.loads(json_string)
     
@@ -86,7 +95,6 @@ def create_obj(json_dict, time):
     for station_id, info_block in json_dict.items():
         city_dict.update({str(station_id) : cl.factWeatherCity(station_id, info_block, time)})
     
-    print(city_dict)
     db_insert(city_dict)
 
 
