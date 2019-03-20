@@ -3,11 +3,14 @@
 import sys
 import json
 import mysql.connector
+import os.path as path
 
 import classes as cl
 import config_test as config
 
 def verify(file_name):
+    file_name = path.basename(file_name)
+    print(file_name)
     if not isinstance(file_name, str):
         print("Bad filename: " + file_name)
         return 0
