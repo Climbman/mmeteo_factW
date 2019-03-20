@@ -20,39 +20,39 @@ class FactWeatherCity:
             self.stn_name = self.checkArg(info_block["station_name"])
         else:
             #TODO: add values from config
-            self.stn_name = "NULL"
+            self.stn_name = None
             
         if "condition_icon" in info_block:
             self.cond_txt = self.checkArg(info_block["condition_icon"])
         else:
-            self.cond_txt = "NULL"
+            self.cond_txt = None
             
         if "condition_code" in info_block:
             self.cond_code = self.checkArg(info_block["condition_code"])
         else:
-            self.cond_code = "NULL"
+            self.cond_code = None
             
         if "46" in self.variables:
             self.temp = self.checkArg(self.variables["46"]["variable_value"])
         else:
-            self.temp = "NULL"
+            self.temp = None
         
         if "39" in self.variables:
             self.press = self.checkArg(self.variables["39"]["variable_value"])
         else:
-            self.press = "NULL"
+            self.press = None
             
         if "60" in self.variables:
             self.wind_dir = self.checkArg(self.variables["60"]["variable_value"])
         else:
-            self.wind_dir = "NULL"
+            self.wind_dir = None
         
         if "751" in self.variables:
             self.wind_gust = self.checkArg(self.variables["751"]["variable_value"])
         else:
-            self.wind_gust = "NULL"
+            self.wind_gust = None
 
     def checkArg(self, str_arg):
         if len(str(str_arg)) == 0:
-            return "NULL"
+            return None
         return str_arg
