@@ -13,7 +13,6 @@ def verify(file_name):
     if not isinstance(file_name, str):
         print("Bad filename: " + file_name)
         return 0
-        
     if not (len(file_name) == 20 and file_name[-5:] == ".json" and file_name[0:3] == "wm_"):
         print("Bad filename: " + file_name)
         return 0
@@ -35,9 +34,7 @@ def db_insert(city_dict):
     for stid in city_dict:
     
         obj = city_dict[stid]
-        
         crs = conn.cursor()
-
         query = "INSERT INTO m_fact_weather (station_id, date_time, stn_name, cond_code, cond_txt, temp, press, wind_dir, wind_gust) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         values = (int(obj.stn_id), obj.datetime, obj.stn_name, obj.cond_code, obj.cond_txt, obj.temp, obj.press, obj.wind_dir, obj.wind_gust)
         
@@ -52,7 +49,6 @@ def db_insert(city_dict):
         if crs.rowcount > 0:
             count += crs.rowcount
     
-
     print(count, "record(s) inserted.")
     
     conn.close()
@@ -62,7 +58,6 @@ def db_insert(city_dict):
 def from_file(file_path):
     
     file_name = path.basename(file_path)
-    
     print("File: " + file_name)
     
     year = file_name[3:7]
@@ -85,7 +80,6 @@ def from_file(file_path):
     
     
 def from_string(string, time):
-    
     #TODO: add date verification
     year = time[0:4]
     month = time[4:6]
@@ -101,10 +95,9 @@ def from_string(string, time):
     
     
 def create_obj(json_dict, time):
-    
     city_dict = {}
     for station_id, info_block in json_dict.items():
-        city_dict.update({str(station_id) : cl.factWeatherCity(station_id, info_block, time)})
+        city_dict.update({str(station_id) : cl.FactWeatherCity(station_id, info_block, time)})
     
     db_insert(city_dict)
 
@@ -117,10 +110,8 @@ if __name__ == "__main__":
     elif len(sys.argv) > 2:
         print("Too many args")
         sys.exit()
-        
     if not verify(sys.argv[1]):
         sys.exit()
     
-        
     from_file(sys.argv[1])
     
