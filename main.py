@@ -10,7 +10,6 @@ import config_test as config
 
 def verify(file_name):
     file_name = path.basename(file_name)
-    print(file_name)
     if not isinstance(file_name, str):
         print("Bad filename: " + file_name)
         return 0
@@ -20,7 +19,9 @@ def verify(file_name):
         return 0
         
     return 1
-    
+
+
+
 def db_insert(city_dict):
     
     conn = mysql.connector.connect(
@@ -29,6 +30,7 @@ def db_insert(city_dict):
     passwd = config._PASS,
     database = config._DB)
     
+    count = 0
     
     for stid in city_dict:
     
@@ -37,7 +39,7 @@ def db_insert(city_dict):
         crs = conn.cursor()
 
         query = "INSERT INTO m_fact_weather (station_id, date_time, stn_name, cond_code, cond_txt, temp, press, wind_dir, wind_gust) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        values = (int(obj.stn_id), obj.datetime, obj.stn_name, int(obj.cond_code), obj.cond_txt, float(obj.temp), float(obj.press), int(obj.wind_dir), float(obj.wind_gust))
+        values = (int(obj.stn_id), obj.datetime, obj.stn_name, obj.cond_code, obj.cond_txt, obj.temp, obj.press, obj.wind_dir, obj.wind_gust)
         
         try:
             crs.execute(query, values)
@@ -46,18 +48,22 @@ def db_insert(city_dict):
             print("Probably a duplicate value in date + station. Date: " + obj.datetime + " Station: " + obj.stn_id)
         except:
             print("Something else went wrong. Date: " + obj.datetime + " Station: " + obj.stn_id)
+        
+        if crs.rowcount > 0:
+            count += crs.rowcount
+    
 
-        print(crs.rowcount, "record inserted.")
+    print(count, "record(s) inserted.")
     
     conn.close()
-    
-    #for key, value in d.items():
 
 
 
 def from_file(file_path):
     
     file_name = path.basename(file_path)
+    
+    print("File: " + file_name)
     
     year = file_name[3:7]
     month = file_name[7:9]

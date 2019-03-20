@@ -20,34 +20,34 @@ class factWeatherCity:
             self.stn_name = info_block["station_name"]
         else:
             #TODO: add values from config
-            self.stn_name = ""
+            self.stn_name = "NULL"
             
         if "condition_icon" in info_block:
             self.cond_txt = info_block["condition_icon"]
         else:
-            self.cond_txt = ""
+            self.cond_txt = "NULL"
             
         if "condition_code" in info_block:
             self.cond_code = info_block["condition_code"]
         else:
-            self.cond_code = ""
+            self.cond_code = "NULL"
             
         if "46" in self.variables:
             self.temp = self.variables["46"]["variable_value"]
         else:
-            self.temp = ""
+            self.temp = "NULL"
         
         if "39" in self.variables:
             self.press = self.variables["39"]["variable_value"]
         else:
-            self.press = ""
+            self.press = "NULL"
             
         if "60" in self.variables:
             self.wind_dir = self.variables["60"]["variable_value"]
         else:
-            self.wind_dir = ""
+            self.wind_dir = "NULL"
         
         if "751" in self.variables:
             self.wind_gust = self.variables["751"]["variable_value"]
         else:
-            self.wind_gust = ""
+            self.wind_gust = "NULL"
