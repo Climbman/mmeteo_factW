@@ -55,7 +55,9 @@ def db_insert(city_dict):
 
 
 
-def from_file(file_name):
+def from_file(file_path):
+    
+    file_name = path.basename(file_path)
     
     year = file_name[3:7]
     month = file_name[7:9]
@@ -64,7 +66,7 @@ def from_file(file_name):
     
     time = [year, month, day, hour]
     
-    with open(file_name,'r',encoding = 'utf-8') as json_file:
+    with open(file_path,'r',encoding = 'utf-8') as json_file:
         json_string = json_file.read()
         
     if len(json_string) == 0:
