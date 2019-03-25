@@ -5,7 +5,8 @@ from bs4 import BeautifulSoup
 import json
 import datetime
 
-import config_test
+import inserter
+import config_temp as config
 
 def reqToList():
     
@@ -58,6 +59,13 @@ def writeJson(text):
 
     with open(path + "wm_" + now + ".json",'w',encoding = 'utf-8') as f:
         f.write(text)
-
+        
+def writeToDB(text):
     
-writeJson(prntNice())
+    now = datetime.datetime.now().strftime("%Y%m%d%H%M")
+    inserter.from_string(text, now)
+
+text = prntNice()
+writeJson(text)
+writeToDB(text)
+

@@ -1,5 +1,4 @@
 ###
-import sys
 
 class FactWeatherCity:
     def __init__(self, id_num, info_block, time):
