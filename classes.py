@@ -1,9 +1,11 @@
 ###
+import sys
 
 class FactWeatherCity:
     def __init__(self, id_num, info_block, time):
         if len(id_num) < 1 or len(info_block) == 0:
-            sys.exit()
+            self.status = 0
+            return
 
         self.stn_id = id_num
         
@@ -11,7 +13,10 @@ class FactWeatherCity:
         
             
         if "variables" not in info_block or len(info_block["variables"]) == 0:
-            sys.exit()
+            self.status = 0
+            return
+
+        self.status = 1
             
         self.variables = info_block["variables"]
         

@@ -34,6 +34,10 @@ def db_insert(city_dict):
     for stid in city_dict:
     
         obj = city_dict[stid]
+
+        if obj.status == 0:
+            continue
+
         crs = conn.cursor()
         query = "INSERT INTO m_fact_weather (station_id, date_time, stn_name, cond_code, cond_txt, temp, press, wind_dir, wind_gust) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         values = (int(obj.stn_id), obj.datetime, obj.stn_name, obj.cond_code, obj.cond_txt, obj.temp, obj.press, obj.wind_dir, obj.wind_gust)
