@@ -6,7 +6,7 @@ import mysql.connector
 import os.path as path
 
 import classes as cl
-import config_test as config
+import config_temp as config
 
 def verify(file_name):
     file_name = path.basename(file_name)
@@ -52,8 +52,10 @@ def db_insert(city_dict):
         
         if crs.rowcount > 0:
             count += crs.rowcount
+        if len(obj.datetime) > 0:
+            date = obj.datetime
     
-    print(count, "record(s) inserted.")
+    print(count, "record(s) inserted. Date: " + date)
     
     conn.close()
 
