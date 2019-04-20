@@ -55,9 +55,9 @@ def writeJson(text):
     path = config._DATAPATH
     
     now = "default"
-    now = datetime.datetime.now().strftime("%Y%m%d%H%M")
+    now = datetime.datetime.now().strftime("%Y%m%d%H")
 
-    with open(path + "wm_" + now + ".json",'w',encoding = 'utf-8') as f:
+    with open(path + "wm_" + now + "00.json",'w',encoding = 'utf-8') as f:
         f.write(text)
         
 def writeToDB(text):
