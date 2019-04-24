@@ -25,6 +25,7 @@ def db_insert(city_dict):
     
     conn = mysql.connector.connect(
     host = config._HOST,
+    port = config._PORT,
     user = config._USER,
     passwd = config._PASS,
     database = config._DB)
